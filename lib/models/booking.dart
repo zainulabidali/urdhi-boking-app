@@ -9,7 +9,7 @@ enum PrayerType {
   @HiveField(1)
   asr,
   @HiveField(2)
-  maghrib,
+  isha,
 }
 
 @HiveType(typeId: 1)

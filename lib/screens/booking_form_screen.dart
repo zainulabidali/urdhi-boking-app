@@ -177,6 +177,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  AdBanner(),
+                  const SizedBox(height: 4),
                   // Prayer Name Header
                   Container(
                     padding: const EdgeInsets.all(16),
@@ -291,8 +293,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
         return 'Dhuhr';
       case PrayerType.asr:
         return 'Asr';
-      case PrayerType.maghrib:
-        return 'Maghrib';
+      case PrayerType.isha:
+        return 'Isha';
     }
   }
 }

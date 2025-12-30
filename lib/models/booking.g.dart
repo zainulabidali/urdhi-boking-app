@@ -67,7 +67,7 @@ class PrayerTypeAdapter extends TypeAdapter<PrayerType> {
       case 1:
         return PrayerType.asr;
       case 2:
-        return PrayerType.maghrib;
+        return PrayerType.isha;
       default:
         return PrayerType.dhuhr;
     }
@@ -82,7 +82,7 @@ class PrayerTypeAdapter extends TypeAdapter<PrayerType> {
       case PrayerType.asr:
         writer.writeByte(1);
         break;
-      case PrayerType.maghrib:
+      case PrayerType.isha:
         writer.writeByte(2);
         break;
     }

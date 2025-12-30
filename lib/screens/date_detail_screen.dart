@@ -208,6 +208,9 @@ class DateDetailScreen extends StatelessWidget {
                   },
                 ),
               ),
+              // const SizedBox(height: 16),
+              // Ad Banner
+              //  AdBanner(),
             ],
           ),
         ],
@@ -232,8 +235,8 @@ class DateDetailScreen extends StatelessWidget {
         return 'Dhuhr';
       case PrayerType.asr:
         return 'Asr';
-      case PrayerType.maghrib:
-        return 'Maghrib';
+      case PrayerType.isha:
+        return 'Isha';
     }
   }
 }

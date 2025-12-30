@@ -4,9 +4,13 @@ import 'package:provider/provider.dart';
 import 'models/booking.dart';
 import 'providers/booking_provider.dart';
 import 'screens/home_screen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Google Mobile Ads SDK
+  await MobileAds.instance.initialize();
 
   // Initialize Hive
   await Hive.initFlutter();

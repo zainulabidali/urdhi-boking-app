@@ -169,14 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             /// 🔵 Selected Day — premium circular with outer ring
                             selectedDecoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color.fromARGB(255, 125, 125, 129),
+                              color: const Color.fromARGB(255, 202, 183, 202),
                               border: Border.all(
-                                color: const Color.fromARGB(
-                                  255,
-                                  0,
-                                  0,
-                                  0,
-                                ).withOpacity(0.35),
+                                color: const Color.fromARGB(255, 255, 191, 191).withOpacity(0.35),
                                 width: 2, // creates ~40px visual size
                               ),
                             ),
