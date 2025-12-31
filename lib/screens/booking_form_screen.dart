@@ -5,10 +5,10 @@ import '../providers/booking_provider.dart';
 import '../widgets/ad_banner.dart';
 
 class BookingFormScreen extends StatefulWidget {
-  final PrayerType prayerType;
+  final String prayerName;
   final Booking? booking;
 
-  const BookingFormScreen({super.key, required this.prayerType, this.booking});
+  const BookingFormScreen({super.key, required this.prayerName, this.booking});
 
   @override
   State<BookingFormScreen> createState() => _BookingFormScreenState();
@@ -56,7 +56,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
         mobileNumber: _mobileController.text.trim(),
         description: _descriptionController.text.trim(),
         date: provider.selectedDate,
-        prayerType: widget.prayerType,
+        prayerName: widget.prayerName,
       );
 
       provider.saveBooking(newBooking);
@@ -104,7 +104,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                 context,
                 listen: false,
               );
-              provider.clearBooking(provider.selectedDate, widget.prayerType);
+              provider.clearBooking(provider.selectedDate, widget.prayerName);
               Navigator.pop(context); // Close dialog
               Navigator.pop(context); // Go back to Detail Screen
 
@@ -158,7 +158,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
         children: [
           // Background Image - Full Cover
           Positioned.fill(
-            child: Image.asset('assets/img1.jpg', fit: BoxFit.cover),
+            child: Image.asset('assets/img2.jpg', fit: BoxFit.cover),
           ),
           // Semi-transparent overlay for better readability
           Positioned.fill(
@@ -191,16 +191,16 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                         Icon(
                           Icons.access_time,
                           color: Colors.grey.shade600,
-                          size: 20,
+                          size: 25,
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          _getPrayerName(widget.prayerType),
+                          widget.prayerName,
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade900,
-                            letterSpacing: -0.3,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: const Color.fromARGB(255, 39, 17, 17),
+                            letterSpacing: 1,
                           ),
                         ),
                       ],
@@ -226,7 +226,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                     },
                     style: TextStyle(color: Colors.grey.shade900, fontSize: 16),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   // Location Field
                   TextFormField(
                     controller: _locationController,
@@ -240,7 +240,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                     ),
                     style: TextStyle(color: Colors.grey.shade900, fontSize: 16),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   // Mobile Number Field
                   TextFormField(
                     controller: _mobileController,
@@ -255,7 +255,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                     keyboardType: TextInputType.phone,
                     style: TextStyle(color: Colors.grey.shade900, fontSize: 16),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   // Description Field
                   TextFormField(
                     controller: _descriptionController,
@@ -287,14 +287,5 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
     );
   }
 
-  String _getPrayerName(PrayerType type) {
-    switch (type) {
-      case PrayerType.dhuhr:
-        return 'Dhuhr';
-      case PrayerType.asr:
-        return 'Asr';
-      case PrayerType.isha:
-        return 'Isha';
-    }
-  }
+  // No longer needed: _getPrayerName
 }

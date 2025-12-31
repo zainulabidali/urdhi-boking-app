@@ -2,15 +2,8 @@ import 'package:hive/hive.dart';
 
 part 'booking.g.dart';
 
-@HiveType(typeId: 0)
-enum PrayerType {
-  @HiveField(0)
-  dhuhr,
-  @HiveField(1)
-  asr,
-  @HiveField(2)
-  isha,
-}
+/// Default prayers for the app
+const List<String> defaultPrayers = ['Dhuhr', 'Asr', 'Isha'];
 
 @HiveType(typeId: 1)
 class Booking extends HiveObject {
@@ -30,7 +23,7 @@ class Booking extends HiveObject {
   DateTime date;
 
   @HiveField(5)
-  PrayerType prayerType;
+  String prayerName; // Now supports custom prayers
 
   Booking({
     required this.mosqueName,
@@ -38,11 +31,11 @@ class Booking extends HiveObject {
     required this.mobileNumber,
     required this.description,
     required this.date,
-    required this.prayerType,
+    required this.prayerName,
   });
 
-  // Unique key for the booking (date + prayerType)
-  static String generateKey(DateTime date, PrayerType prayerType) {
-    return "${date.year}-${date.month}-${date.day}_${prayerType.name}";
+  // Unique key for the booking (date + prayerName)
+  static String generateKey(DateTime date, String prayerName) {
+    return "${date.year}-${date.month}-${date.day}_$prayerName";
   }
 }

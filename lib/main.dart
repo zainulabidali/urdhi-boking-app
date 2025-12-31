@@ -15,9 +15,8 @@ void main() async {
   // Initialize Hive
   await Hive.initFlutter();
 
-  // Register Adapters
+  // Register Adapters (MUST be registered before opening any boxes)
   Hive.registerAdapter(BookingAdapter());
-  Hive.registerAdapter(PrayerTypeAdapter());
 
   final bookingProvider = BookingProvider();
   await bookingProvider.init();

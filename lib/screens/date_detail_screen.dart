@@ -6,9 +6,49 @@ import '../providers/booking_provider.dart';
 import '../widgets/ad_banner.dart';
 import 'booking_form_screen.dart';
 
-class DateDetailScreen extends StatelessWidget {
+class DateDetailScreen extends StatefulWidget {
   const DateDetailScreen({super.key});
 
+  @override
+  State<DateDetailScreen> createState() => _DateDetailScreenState();
+}
+
+  void _showAddExtraDialog(BuildContext context, BookingProvider provider) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Add Extra Prayer/Item'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            labelText: 'Name',
+            hintText: 'Enter custom prayer or item',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final name = controller.text.trim();
+              if (name.isNotEmpty) {
+                provider.addCustomPrayer(name);
+                Navigator.pop(context);
+              }
+            },
+            child: const Text('Add'),
+          ),
+        ],
+      ),
+    );
+  }
+
+class _DateDetailScreenState extends State<DateDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<BookingProvider>(context);
@@ -29,7 +69,7 @@ class DateDetailScreen extends StatelessWidget {
         children: [
           // Background Image - Full Cover
           Positioned.fill(
-            child: Image.asset('assets/img1.jpg', fit: BoxFit.cover),
+            child: Image.asset('assets/img2.jpg', fit: BoxFit.cover),
           ),
           // Semi-transparent overlay for better readability
           Positioned.fill(
@@ -78,12 +118,12 @@ class DateDetailScreen extends StatelessWidget {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  itemCount: PrayerType.values.length,
+                  itemCount: provider.allPrayers.length,
                   itemBuilder: (context, index) {
-                    final prayerType = PrayerType.values[index];
+                    final prayerName = provider.allPrayers[index];
                     final booking = provider.getBooking(
                       selectedDate,
-                      prayerType,
+                      prayerName,
                     );
                     final isBooked = booking != null;
 
@@ -99,7 +139,7 @@ class DateDetailScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingFormScreen(
-                                  prayerType: prayerType,
+                                  prayerName: prayerName,
                                   booking: booking,
                                 ),
                               ),
@@ -134,7 +174,7 @@ class DateDetailScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            _getPrayerName(prayerType),
+                                            prayerName,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
@@ -208,6 +248,36 @@ class DateDetailScreen extends StatelessWidget {
                   },
                 ),
               ),
+              // Add Extra Button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: 8.0,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF2C5F5F),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          elevation: 2,
+                        ),
+                        icon: const Icon(Icons.add, size: 22),
+                        label: const Text(
+                          'Add Extra Prayer/Item',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        onPressed: () => _showAddExtraDialog(context, provider),
+                      ),
+                    ),
+                  ),
               // const SizedBox(height: 16),
               // Ad Banner
               //  AdBanner(),
@@ -227,16 +297,5 @@ class DateDetailScreen extends StatelessWidget {
         style: TextStyle(fontSize: size, color: Colors.grey.shade600),
       ),
     );
-  }
-
-  String _getPrayerName(PrayerType type) {
-    switch (type) {
-      case PrayerType.dhuhr:
-        return 'Dhuhr';
-      case PrayerType.asr:
-        return 'Asr';
-      case PrayerType.isha:
-        return 'Isha';
-    }
   }
 }

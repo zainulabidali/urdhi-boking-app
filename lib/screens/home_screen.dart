@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,11 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Background Image - Full Cover
           Positioned.fill(
-            child: Image.asset('assets/img1.jpg', fit: BoxFit.cover),
+            child: Image.asset('assets/img2.jpg', fit: BoxFit.cover),
           ),
           // Semi-transparent overlay for better readability
           Positioned.fill(
-            child: Container(color: Colors.white.withOpacity(0.3)),
+            child: Container(color: Colors.white.withOpacity(0.2)),
           ),
           // Content
           Consumer<BookingProvider>(
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // Calendar Container with padding
                   Padding(
-                    padding: const EdgeInsets.all(26),
+                    padding: const EdgeInsets.all(16),
                     child: Material(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
@@ -62,14 +63,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.white.withOpacity(0.45),
+                          color: Colors.white.withOpacity(0.30),
                           border: Border.all(
                             color: Colors.white.withOpacity(0.45),
                             width: 1,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withOpacity(0.10),
                               blurRadius: 16,
                               offset: const Offset(0, 10),
                             ),
@@ -114,28 +115,42 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               if (bookingCount == 0) return null;
 
-                              Color dotColor = bookingCount == 1
-                                  ? Colors.amber.shade500
-                                  : bookingCount == 2
-                                  ? Colors.blue.shade500
-                                  : Colors.green.shade500;
-
+                              // Number badge system
+                              Color badgeColor = const Color.fromARGB(255, 255, 255, 255); // Green background
+                              Color numberColor;
+                              if (bookingCount == 1) {
+                                numberColor = const Color.fromARGB(255, 232, 144, 2); // Yellow
+                              } else if (bookingCount == 2) {
+                                numberColor = const Color.fromARGB(255, 1, 92, 250); // Blue
+                              } else {
+                                numberColor = const Color.fromARGB(255, 2, 228, 17); // Green
+                              }
                               return Positioned(
-                                right: 4,
-                                bottom: 4,
+                                right: 3,
+                                bottom: 1,
                                 child: Container(
-                                  width: 16,
-                                  height: 16,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 1,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: dotColor,
-                                    shape: BoxShape.circle,
+                                    color: badgeColor,
+                                    borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: dotColor.withOpacity(0.4),
+                                        color: badgeColor.withOpacity(0.2),
                                         blurRadius: 4,
                                         offset: const Offset(0, 2),
                                       ),
                                     ],
+                                  ),
+                                  child: Text(
+                                    '$bookingCount',
+                                    style: TextStyle(
+                                      color: numberColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 11,
+                                    ),
                                   ),
                                 ),
                               );
@@ -169,9 +184,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             /// 🔵 Selected Day — premium circular with outer ring
                             selectedDecoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color.fromARGB(255, 202, 183, 202),
+                              color: const Color.fromARGB(164, 105, 165, 101),
                               border: Border.all(
-                                color: const Color.fromARGB(255, 255, 191, 191).withOpacity(0.35),
+                                color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.35),
                                 width: 2, // creates ~40px visual size
                               ),
                             ),
@@ -222,13 +237,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(
                       'Select a date to view or add bookings',
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: const Color.fromARGB(255, 54, 54, 54),
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
+
+                  
                   const Spacer(),
                 ],
               );
