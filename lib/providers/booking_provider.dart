@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/booking.dart';
+import '../services/hive_service.dart';
 
 class BookingProvider with ChangeNotifier {
-  static const String boxName = 'bookings_box';
   late Box<Booking> _box;
+  late Box _settingsBox;
   DateTime _selectedDate = DateTime.now();
 
   // List of custom prayers/items added by the user
@@ -21,30 +22,34 @@ class BookingProvider with ChangeNotifier {
   }
 
   Future<void> init() async {
-    // CRITICAL: Delete box BEFORE opening to prevent typeId errors from old data
-    // This ensures we never try to read corrupted/incompatible data
-    if (await Hive.boxExists(boxName)) {
-      await Hive.deleteBoxFromDisk(boxName);
-    }
-    _box = await Hive.openBox<Booking>(boxName);
-    // Optionally, load custom prayers from persistent storage if needed
+    // Use the Hive service for proper initialization
+    _box = await HiveService.openBookingsBox();
+    _settingsBox = await HiveService.openSettingsBox();
+
+    // Load custom prayers from disk
+    _customPrayers = List<String>.from(
+      _settingsBox.get(HiveService.customPrayersKey, defaultValue: []),
+    );
+
     notifyListeners();
   }
 
   // Add a custom prayer/item
-  void addCustomPrayer(String name) {
+  Future<void> addCustomPrayer(String name) async {
     if (!_customPrayers.contains(name) && !defaultPrayers.contains(name)) {
       _customPrayers.add(name);
+      await _settingsBox.put(HiveService.customPrayersKey, _customPrayers);
       notifyListeners();
-      // Optionally, persist custom prayers
     }
   }
 
   // Remove a custom prayer/item
-  void removeCustomPrayer(String name) {
-    _customPrayers.remove(name);
-    notifyListeners();
-    // Optionally, persist custom prayers
+  Future<void> removeCustomPrayer(String name) async {
+    if (_customPrayers.contains(name)) {
+      _customPrayers.remove(name);
+      await _settingsBox.put(HiveService.customPrayersKey, _customPrayers);
+      notifyListeners();
+    }
   }
 
   // Get booking for a specific date and prayer name
@@ -80,6 +85,13 @@ class BookingProvider with ChangeNotifier {
   Future<void> clearBooking(DateTime date, String prayerName) async {
     final key = Booking.generateKey(date, prayerName);
     await _box.delete(key);
+    notifyListeners();
+  }
+
+  // Toggle completion status of a booking
+  Future<void> toggleCompletion(Booking booking) async {
+    booking.isCompleted = !booking.isCompleted;
+    await booking.save(); // Efficiently saves the changes to Hive
     notifyListeners();
   }
 }

@@ -8,7 +8,7 @@ part of 'booking.dart';
 
 class BookingAdapter extends TypeAdapter<Booking> {
   @override
-  final int typeId = 1;
+  final int typeId = 100;
 
   @override
   Booking read(BinaryReader reader) {
@@ -23,13 +23,14 @@ class BookingAdapter extends TypeAdapter<Booking> {
       description: fields[3] as String,
       date: fields[4] as DateTime,
       prayerName: fields[5] as String,
+      isCompleted: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Booking obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.mosqueName)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class BookingAdapter extends TypeAdapter<Booking> {
       ..writeByte(4)
       ..write(obj.date)
       ..writeByte(5)
-      ..write(obj.prayerName);
+      ..write(obj.prayerName)
+      ..writeByte(6)
+      ..write(obj.isCompleted);
   }
 
   @override

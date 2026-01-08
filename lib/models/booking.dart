@@ -5,7 +5,7 @@ part 'booking.g.dart';
 /// Default prayers for the app
 const List<String> defaultPrayers = ['Dhuhr', 'Asr', 'Isha'];
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 100) // Using fresh typeId to avoid conflicts
 class Booking extends HiveObject {
   @HiveField(0)
   String mosqueName;
@@ -25,6 +25,9 @@ class Booking extends HiveObject {
   @HiveField(5)
   String prayerName; // Now supports custom prayers
 
+  @HiveField(6)
+  bool isCompleted; // Tracks if prayer is performed
+
   Booking({
     required this.mosqueName,
     required this.location,
@@ -32,6 +35,7 @@ class Booking extends HiveObject {
     required this.description,
     required this.date,
     required this.prayerName,
+    this.isCompleted = false,
   });
 
   // Unique key for the booking (date + prayerName)

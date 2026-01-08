@@ -5,6 +5,7 @@ import 'models/booking.dart';
 import 'providers/booking_provider.dart';
 import 'screens/home_screen.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'services/hive_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,14 +13,12 @@ void main() async {
   // Initialize Google Mobile Ads SDK
   await MobileAds.instance.initialize();
 
-  // Initialize Hive
-  await Hive.initFlutter();
+  // Initialize Hive using the service for proper setup
+  await HiveService.initializeHive();
 
-  // Register Adapters (MUST be registered before opening any boxes)
-  Hive.registerAdapter(BookingAdapter());
-
+  // Create and initialize the booking provider with fresh data
   final bookingProvider = BookingProvider();
-  await bookingProvider.init();
+  await bookingProvider.init(); // This handles clean initialization
 
   runApp(
     MultiProvider(
@@ -35,7 +34,7 @@ class RamadanSpeechApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ramadan Speech Notebook',
+      title: 'urdhi speech tracker', // Updated app title to match user preference
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,

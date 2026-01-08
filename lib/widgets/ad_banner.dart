@@ -42,7 +42,7 @@ class _AdBannerState extends State<AdBanner> {
       // Use test ad unit ID during development
       // Switch to _liveBannerAdUnitId for production after AdMob approval
       adUnitId:
-          _testBannerAdUnitId, // Change to _liveBannerAdUnitId for production
+          _liveBannerAdUnitId, // Change to _liveBannerAdUnitId for production
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {

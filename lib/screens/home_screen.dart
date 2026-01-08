@@ -3,6 +3,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:provider/provider.dart';
 import '../providers/booking_provider.dart';
 import '../widgets/ad_banner.dart';
+import 'booking_list_screen.dart';
 import 'date_detail_screen.dart';
 
 // Import isSameDay utility
@@ -21,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +42,42 @@ class _HomeScreenState extends State<HomeScreen> {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: Text(
-                      'Ramadan  Notebook',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Ramadan Notebook',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BookingListScreen(),
+                              ),
+                            );
+                          },
+                          icon: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.view_list_rounded,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
+                          tooltip: 'View Booking List',
+                        ),
+                      ],
                     ),
                   ),
 
@@ -116,14 +144,34 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (bookingCount == 0) return null;
 
                               // Number badge system
-                              Color badgeColor = const Color.fromARGB(255, 255, 255, 255); // Green background
+                              Color badgeColor = const Color.fromARGB(
+                                255,
+                                255,
+                                255,
+                                255,
+                              ); // Green background
                               Color numberColor;
                               if (bookingCount == 1) {
-                                numberColor = const Color.fromARGB(255, 232, 144, 2); // Yellow
+                                numberColor = const Color.fromARGB(
+                                  255,
+                                  232,
+                                  144,
+                                  2,
+                                ); // Yellow
                               } else if (bookingCount == 2) {
-                                numberColor = const Color.fromARGB(255, 1, 92, 250); // Blue
+                                numberColor = const Color.fromARGB(
+                                  255,
+                                  1,
+                                  92,
+                                  250,
+                                ); // Blue
                               } else {
-                                numberColor = const Color.fromARGB(255, 2, 228, 17); // Green
+                                numberColor = const Color.fromARGB(
+                                  255,
+                                  2,
+                                  228,
+                                  17,
+                                ); // Green
                               }
                               return Positioned(
                                 right: 3,
@@ -186,7 +234,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               shape: BoxShape.circle,
                               color: const Color.fromARGB(164, 105, 165, 101),
                               border: Border.all(
-                                color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.35),
+                                color: const Color.fromARGB(
+                                  255,
+                                  255,
+                                  255,
+                                  255,
+                                ).withOpacity(0.35),
                                 width: 2, // creates ~40px visual size
                               ),
                             ),
@@ -245,7 +298,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  
                   const Spacer(),
                 ],
               );
